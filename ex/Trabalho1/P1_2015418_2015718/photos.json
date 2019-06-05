@@ -1,0 +1,86 @@
+{
+    "fotografia2": {
+        "id": "37888de4-72bb-11e9-a923-1681be663d3e",
+        "uploader": "Alberto",
+        "title": "Sky",
+        "description": "Ilustração do céu",
+        "size": 35,
+        "url": "www.sky.com",
+        "likes": 15,
+        "dislikes": 10,
+        "comments": ["Podia estar melhor!"],
+        "tags": ["sky", "blue"]
+    },
+    "fotografia3": {
+        "id": "40406272-72bb-11e9-a923-1681be663d3e",
+        "uploader": "Sara",
+        "title": "Pink",
+        "description": "Um ponto rosa no meio da tela",
+        "size": 10,
+        "url": "www.pink.com",
+        "likes": 7,
+        "dislikes": 2,
+        "comments": ["Sem emoção.", "dawdsfsfsdfsdfsdwadw"],
+        "tags": ["pink", "dot"]
+    },
+    "fotografia4": {
+        "id": "38e4aa90-7362-11e9-9d36-f92cfb816639",
+        "uploader": "Alberto",
+        "title": "Sea",
+        "description": "Ilustração do mar",
+        "size": 56,
+        "url": "www.sea.com",
+        "likes": 67,
+        "dislikes": 3,
+        "comments": ["Melhor era impossível"],
+        "tags": ["sea", "blue"]
+    },
+    "fotografia5": {
+        "id": "02b8f676-72bb-11e9-a923-1681be663d3e",
+        "uploader": "Pedro",
+        "title": "Arroz",
+        "description": "Ilustração",
+        "size": 54,
+        "url": "www.arroz.com",
+        "likes": 67,
+        "dislikes": 99,
+        "comments": ["Muito bonito!", "Giro."],
+        "tags": ["arroz", "branco", "agulha", "batata", "semilha", "teste", "morango", "tomate", "alface", "sky"]
+    },
+    "fotografia6": {
+        "id": "02b8f676-72bb-11e9-a923-1681be663d3e",
+        "uploader": "Pedro",
+        "title": "Uvas",
+        "description": "Retrato",
+        "size": 20,
+        "url": "www.uvas.com",
+        "likes": 10,
+        "dislikes": 3,
+        "comments": ["Muito bonito!", "Giro."],
+        "tags": ["uva", "fruta"]
+    },
+    "fotografia7": {
+        "id": "79419140-73f6-11e9-b534-e9645802149b",
+        "uploader": "Pedro",
+        "title": "Solidão",
+        "description": "Retrato",
+        "size": 20,
+        "url": "www.solidao.com",
+        "likes": 4,
+        "dislikes": 54,
+        "comments": ["Horrível!", "Precisa de ser melhorado!", "Feio."],
+        "tags": ["grimreaper", "tristeza", "sozinho"]
+    },
+    "fotografia8": {
+        "id": "d8ee8f20-73f7-11e9-9e9e-71c34a45be42",
+        "uploader": "Afonso",
+        "title": "Areia",
+        "description": "Ilustração",
+        "size": 14,
+        "url": "www.areia.com",
+        "likes": 21,
+        "dislikes": 7,
+        "comments": ["Perfeito!", "Ui, quente.", "Calmo."],
+        "tags": ["areia", "calor", "calmo"]
+    }
+}
