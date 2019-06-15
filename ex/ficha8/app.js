@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var flash = require('connect-flash');
 var app = express();
+var mysql = require('mysql');
+var port = 3000;
 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms

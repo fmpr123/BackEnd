@@ -4,6 +4,7 @@ var mysql = require('mysql')
 var LocalStrategy = require('passport-local').Strategy;
 
 // MySQL connection
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -31,9 +32,10 @@ module.exports = function (passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function (id, done) {
-        connection.query('select * from users where id=' + id, function (err, rows) {
-            done(err, rows[0]);
-        });
+        var query = "select * from users where id= " + id;
+        connection.query(query, function (err, rows, fields) {
+            return done(null, rows[0]);
+        })
     });
 
     // =========================================================================
@@ -49,19 +51,24 @@ module.exports = function (passport) {
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
         function (req, email, password, done) {
-            // find a user whose email is the same as the forms email
-            connection.query("select * from personsdb.users where email='" + email + "'", function (err, rows, fields) {
+            connection.query('select * from users where email=?', email, function (err, rows, fields) {
                 if (err)
                     return done(err);
-                if (!rows.length) {
-                    connection.query("insert into users(id,password,email) values(0,'" + password + "','" + email + "')", function (err, rows, fields) {
-                        var user = { id: rows.insertId};
-                        return done(null, user);
-                    });
+                if (rows.length) {
+                    return done(null, false, req.flash('loginMessage', 'User already exists.'))
                 } else {
-                    return done(null, false, req.flash('loginMessage', 'User already exists'));
-                }
+                    var query = 'INSERT INTO users set ?';
+                    var values = {email, password};
+                    connection.query(query, values, function (err, result, fields) {
+                        if (err) throw err;
+                        var user= {id: result.insertId};
+                        return done(null, user);
+                    })
+                };
             });
+
+
+            // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists            
         }));
     // =========================================================================
@@ -76,16 +83,15 @@ module.exports = function (passport) {
         passwordField: 'password',
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
-        function (req, email, password, done) { // callback with email and password from our form
-            connection.query("select * from personsdb.users where email='" + email + "'", function (err, rows, fields) {
+        function (req, email, password, done) { // callback with email and password from our form                        
+            connection.query('select * from users where email=?', email, function (err, rows, fields) {
                 if (err)
                     return done(err);
                 if (!rows.length) {
-                    return done(null, false, req.flash('loginMessage', 'No user found'));
+                    return done(null, false, req.flash('loginMessage', 'No user found.'));
                 }
-                if (!(rows[0].password == password)) {
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-                }
+                if (!(rows[0].password == password))
+                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password!'))
                 return done(null, rows[0]);
             });
         }));
