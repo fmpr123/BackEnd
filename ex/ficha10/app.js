@@ -1,53 +1,48 @@
-// require and instantiate express
-var express = require('express');
-var app = express();
+const express = require('express')
+const app = express()
 
-app.set('view engine', 'ejs'); // set up ejs for templating
+
+//set the template engine ejs
+app.set('view engine', 'ejs')
 
 //middlewares
-app.use(express.static('public'));
+app.use(express.static('public'))
 
-// express server
-var server = app.listen(3000, function () {
-    var host = server.address().address
-    var port = server.address().port
-    console.log("Example app listening at http://%s:%s", host, port);
-});
-// route
-app.get('/', function (req, res) {
-    res.render('index.ejs');
-});
-var io = require('socket.io')(server);
 
-var users = {};
-// Registar o evento Connection
+//routes
+app.get('/', (req, res) => {
+	res.render('index')
+})
+
+//Listen on port 3000
+server = app.listen(3000)
+
+
+
+//socket.io instantiation
+const io = require("socket.io")(server)
+
+
+//listen on every connection
 io.on('connection', (socket) => {
-    console.log('New user connected')
-    //default username
-    socket.username = "Anonymous";
-    // socket.id=uuid();
+	console.log('New user connected')
 
-    users[socket.id] = socket.username;
+	//default username
+	socket.username = "Anonymous"
 
-    // console.log(users);
     //listen on change_username
-    socket.on('change_username', function (data) {   
-        socket.username = data.username;
-        users[socket.id] = data.username;
-
-        io.sockets.emit('users_update', users);
+    socket.on('change_username', (data) => {
+        socket.username = data.username
     })
 
     //listen on new_message
-    socket.on('new_message', function (data) {
+    socket.on('new_message', (data) => {
         //broadcast the new message
-        io.sockets.emit('new_message', { message: data.message, username: socket.username });
+        io.sockets.emit('new_message', {message : data.message, username : socket.username});
     })
 
     //listen on typing
-    socket.on('typing', function () {
-        socket.broadcast.emit('typing', { username: socket.username })
+    socket.on('typing', (data) => {
+    	socket.broadcast.emit('typing', {username : socket.username})
     })
-
-    console.log(users);
 })

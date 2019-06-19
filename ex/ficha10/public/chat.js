@@ -1,43 +1,42 @@
-$(function () {
-    //make connection
-    var socket = io.connect();
 
-    //buttons and inputs
-    var message = $("#message");
-    var username = $("#username");
-    var send_message = $("#send_message");
-    var send_username = $("#send_username");
-    var show_users= $("#show_users")
-    var chatroom = $("#chatroom");
-    var feedback = $("#feedback");
+$(function(){
+   	//make connection
+	var socket = io.connect('http://localhost:3000')
 
-    //Emit message
-    send_message.click(function () {
-        socket.emit('new_message', { message: message.val() })
-        console.log(message.val())
-    })
+	//buttons and inputs
+	var message = $("#message")
+	var username = $("#username")
+	var send_message = $("#send_message")
+	var send_username = $("#send_username")
+	var chatroom = $("#chatroom")
+	var feedback = $("#feedback")
 
-    //Listen on new_message
-    socket.on("new_message", function(data){
-        chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
-    })
+	//Emit message
+	send_message.click(function(){
+		socket.emit('new_message', {message : message.val()})
+	})
 
-    //Emit a username
-    send_username.click(function () {
-        socket.emit('change_username', { username: username.val() })
-    })
+	//Listen on new_message
+	socket.on("new_message", (data) => {
+		feedback.html('');
+		message.val('');
+		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+	})
 
-    //Emit typing
-    message.bind("keypress",function (){
-        socket.emit('typing')
-    })
+	//Emit a username
+	send_username.click(function(){
+		socket.emit('change_username', {username : username.val()})
+	})
 
-    //Listen on typing
-    socket.on('typing', function(data)  {
-        feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>")
-    })
+	//Emit typing
+	message.bind("keypress", () => {
+		socket.emit('typing')
+	})
 
-    socket.on("users_update",function(users){
-        show_users.append("<p><i>"+users+"</i></p>");
-    })
+	//Listen on typing
+	socket.on('typing', (data) => {
+		feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>")
+	})
 });
+
+
