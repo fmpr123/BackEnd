@@ -1,4 +1,3 @@
-
 $(function () {
 	//make connection
 	var socket = io.connect('http://localhost:3000')
@@ -28,11 +27,15 @@ $(function () {
 		chatroom.append("<p class='message'>New User connected: " + socket.username + "</p>")
 	})
 
+	//Listen on user disconnect
+	socket.on("user_disconnect", () => {
+		chatroom.append("<p class='message'>" + username + " disconnected"+"</p>")
+	})
+
 	//Emit a username
 	send_username.click(function () {
 		socket.emit('change_username', { username: username.val() });
 		chatroom.append("<p class='message'>" + "Nome alterado para: " + username.val() + "</p>");
-
 	})
 
 	//Emit typing
