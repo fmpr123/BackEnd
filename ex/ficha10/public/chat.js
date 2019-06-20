@@ -1,6 +1,6 @@
 
-$(function(){
-   	//make connection
+$(function () {
+	//make connection
 	var socket = io.connect('http://localhost:3000')
 
 	//buttons and inputs
@@ -12,8 +12,8 @@ $(function(){
 	var feedback = $("#feedback")
 
 	//Emit message
-	send_message.click(function(){
-		socket.emit('new_message', {message : message.val()})
+	send_message.click(function () {
+		socket.emit('new_message', { message: message.val() })
 	})
 
 	//Listen on new_message
@@ -23,9 +23,16 @@ $(function(){
 		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
 	})
 
+	//Listen on user connection
+	socket.on("user_connect", (socket) => {
+		chatroom.append("<p class='message'>New User connected: " + socket.username + "</p>")
+	})
+
 	//Emit a username
-	send_username.click(function(){
-		socket.emit('change_username', {username : username.val()})
+	send_username.click(function () {
+		socket.emit('change_username', { username: username.val() });
+		chatroom.append("<p class='message'>" + "Nome alterado para: " + username.val() + "</p>");
+
 	})
 
 	//Emit typing
