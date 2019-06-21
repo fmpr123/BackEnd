@@ -44,6 +44,12 @@ io.on('connection', (socket) => {
     //Listen on user connection
     io.sockets.emit('user_connect', { username: socket.username });
 
+    //Listen on user disconnect
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+        io.sockets.emit('user_disconnect', { username: socket.username });
+    })
+
     //listen on change_username
     socket.on('change_username', (data) => {
         socket.username = data.username
@@ -59,11 +65,5 @@ io.on('connection', (socket) => {
     //listen on typing
     socket.on('typing', (data) => {
         socket.broadcast.emit('typing', { username: socket.username })
-    })
-
-    //Listen on user disconnect
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-        io.sockets.emit('user_disconnect', { username: socket.username });
     })
 })
