@@ -35,7 +35,7 @@ $(function () {
 	//Emit a username
 	send_username.click(function () {
 		socket.emit('change_username', { username: username.val() });
-		chatroom.append("<p class='message'>" + "Nome alterado para: " + username.val() + "</p>");
+		chatroom.append("<p class='message'>" + "Name change to: " + username.val() + "</p>");
 	})
 
 	//Emit typing
