@@ -29,7 +29,7 @@ $(function () {
 
 	//Listen on user disconnect
 	socket.on("user_disconnect", (socket) => {
-		chatroom.append("<p class='message'>" + socket.username + " disconnected"+"</p>")
+		chatroom.append("<p class='message'>" + socket.username + " disconnected" + "</p>")
 	})
 
 	//Emit a username
