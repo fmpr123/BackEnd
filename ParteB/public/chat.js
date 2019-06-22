@@ -9,12 +9,19 @@ $(function () {
 	var send_username = $("#send_username")
 	var chatroom = $("#chatroom")
 	var feedback = $("#feedback")
+	var upload = $("#upload")
+
+	//Emit upload
+	upload.click(function () {
+		socket.emit('upload_img')
+	})
 
 	//Emit message
 	send_message.click(function () {
 		socket.emit('new_message', { message: message.val() })
 	})
 
+	//Listen on sending message
 	socket.on("send_image", (data) => {
 		chatroom.append("<p class='message'>" + data.username + ": <img src='/uploads/" + data.image_path + "'></p>")
 	})
@@ -43,9 +50,9 @@ $(function () {
 
 	//Listen on new_message
 	socket.on("new_username", (data) => {
-		chatroom.append("<p class='message'>" + data.old_username +" changed name to " + data.new_username + "</p>");
+		chatroom.append("<p class='message'>" + data.old_username + " changed name to " + data.new_username + "</p>");
 	})
-	
+
 	//Emit typing
 	message.bind("keypress", () => {
 		socket.emit('typing')
