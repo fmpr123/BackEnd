@@ -87,7 +87,9 @@ io.on('connection', (socket) => {
 
     //listen on change_username
     socket.on('change_username', (data) => {
+        var old_username = socket.username;
         socket.username = data.username
+        io.sockets.emit('new_username', { new_username: socket.username, old_username: old_username });
     })
 
     //listen on new_message
@@ -116,7 +118,6 @@ io.on('connection', (socket) => {
                 } else {
                     res.render('index', {
                         msg: 'File Uploaded!',
-                        // file: `uploads/${req.file.filename}`
                     });
                     io.sockets.emit('send_image', { image_path: req.file.filename, username: socket.username });
                 }
