@@ -104,6 +104,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('typing', { username: socket.username })
     })
 
+    //Post that submits upload
     app.post('/', (req, res) => {
         upload(req, res, (err) => {
             if (err) {
