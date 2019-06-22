@@ -15,6 +15,10 @@ $(function () {
 		socket.emit('new_message', { message: message.val() })
 	})
 
+	socket.on("send_image", (data) => {
+		chatroom.append("<p class='message'>"+data.username+ ": <img src='/uploads/"+data.image_path+"'></p>")
+	})
+
 	//Listen on new_message
 	socket.on("new_message", (data) => {
 		feedback.html('');

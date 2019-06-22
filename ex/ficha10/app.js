@@ -4,6 +4,12 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 
+//Listen on port 3000
+server = app.listen(3000)
+
+//socket.io instantiation
+const io = require("socket.io")(server)
+
 // Set The Storage Engine
 const storage = multer.diskStorage({
     destination: './public/uploads/',
@@ -63,33 +69,6 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-app.post('/upload', (req, res) => {
-    upload(req, res, (err) => {
-        if (err) {
-            res.render('index', {
-                msg: err
-            });
-        } else {
-            if (req.file == undefined) {
-                res.render('index', {
-                    msg: 'Error: No File Selected!'
-                });
-            } else {
-                res.render('index', {
-                    msg: 'File Uploaded!'
-                    // file: `uploads/${req.file.filename}`
-                });
-            }
-        }
-    });
-});
-
-//Listen on port 3000
-server = app.listen(3000)
-
-//socket.io instantiation
-const io = require("socket.io")(server)
-
 //listen on every connection
 io.on('connection', (socket) => {
     console.log('New user connected')
@@ -122,4 +101,26 @@ io.on('connection', (socket) => {
     socket.on('typing', (data) => {
         socket.broadcast.emit('typing', { username: socket.username })
     })
+
+    app.post('/', (req, res) => {
+        upload(req, res, (err) => {
+            if (err) {
+                res.render('index', {
+                    msg: err
+                });
+            } else {
+                if (req.file == undefined) {
+                    res.render('index', {
+                        msg: 'Error: No File Selected!'
+                    });
+                } else {
+                    res.render('index', {
+                        msg: 'File Uploaded!',
+                        // file: `uploads/${req.file.filename}`
+                    });
+                    io.sockets.emit('send_image', { image_path: req.file.filename, username: socket.username });
+                }
+            }
+        });
+    });
 })
