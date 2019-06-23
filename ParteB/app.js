@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 
+//Variable to store user wich is used to upload
 var user;
 
 //Listen on port 3000
@@ -71,8 +72,6 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-
-
 //listen on every connection
 io.on('connection', (socket) => {
     console.log('New user connected')
@@ -108,11 +107,6 @@ io.on('connection', (socket) => {
     socket.on('typing', (data) => {
         socket.broadcast.emit('typing', { username: socket.username })
     })
-
-    //Listen on upload
-    // socket.on('upload_img', () => {
-    //     io.sockets.emit('send_image', { image_path: image, username: socket.username });
-    // })
 
     //Post that submits upload
     app.post('/', (req, res) => {
