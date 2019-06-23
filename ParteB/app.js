@@ -4,7 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 
-var image;
+var user;
 
 //Listen on port 3000
 server = app.listen(3000)
@@ -71,27 +71,7 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-//Post that submits upload
-app.post('/', (req, res) => {
-    upload(req, res, (err) => {
-        if (err) {
-            res.render('index', {
-                msg: err
-            });
-        } else {
-            if (req.file == undefined) {
-                res.render('index', {
-                    msg: 'Error: No File Selected!'
-                });
-            } else {
-                res.render('index', {
-                    msg: 'File Uploaded!',
-                });
-                image = req.file.filename;
-            }
-        }
-    });
-});
+
 
 //listen on every connection
 io.on('connection', (socket) => {
@@ -99,7 +79,7 @@ io.on('connection', (socket) => {
 
     //default username
     socket.username = "Anonymous"
-
+    user = "Anonymous"
     //Listen on user connection
     io.sockets.emit('user_connect', { username: socket.username });
 
@@ -113,6 +93,7 @@ io.on('connection', (socket) => {
     socket.on('change_username', (data) => {
         var old_username = socket.username;
         socket.username = data.username
+        user = data.username
         io.sockets.emit('new_username', { new_username: socket.username, old_username: old_username });
     })
 
@@ -129,7 +110,29 @@ io.on('connection', (socket) => {
     })
 
     //Listen on upload
-    socket.on('upload_img', () => {
-        io.sockets.emit('send_image', { image_path: image, username: socket.username });
-    })
+    // socket.on('upload_img', () => {
+    //     io.sockets.emit('send_image', { image_path: image, username: socket.username });
+    // })
+
+    //Post that submits upload
+    app.post('/', (req, res) => {
+        upload(req, res, (err) => {
+            if (err) {
+                res.render('index', {
+                    msg: err
+                });
+            } else {
+                if (req.file == undefined) {
+                    res.render('index', {
+                        msg: 'Error: No File Selected!'
+                    });
+                } else {
+                    res.render('index', {
+                        msg: 'File Uploaded!',
+                    });
+                    io.sockets.emit('send_image', { image_path: req.file.filename, username: user });
+                }
+            }
+        });
+    });
 })

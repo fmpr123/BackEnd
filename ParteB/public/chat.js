@@ -12,9 +12,9 @@ $(function () {
 	var upload = $("#upload")
 
 	//Emit upload
-	upload.click(function () {
-		socket.emit('upload_img')
-	})
+	// upload.click(function () {
+	// 	socket.emit('upload_img')
+	// })
 
 	//Emit message
 	send_message.click(function () {
