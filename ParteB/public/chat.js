@@ -9,12 +9,6 @@ $(function () {
 	var send_username = $("#send_username")
 	var chatroom = $("#chatroom")
 	var feedback = $("#feedback")
-	var upload = $("#upload")
-
-	//Emit upload
-	// upload.click(function () {
-	// 	socket.emit('upload_img')
-	// })
 
 	//Emit message
 	send_message.click(function () {

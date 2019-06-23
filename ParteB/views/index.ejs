@@ -19,6 +19,7 @@
       <button id="send_username" type="button">Change username</button>
     </div>
   </section>
+
   <!-- Upload area -->
   <div class="container">
     <%= typeof msg != 'undefined' ? msg : '' %>
@@ -26,13 +27,13 @@
       <div class="file-field input-field">
         <div class="btn grey">
           <span>File</span>
-          <input name="myImage" type="file">
+          <input name="myImage" type="file"> <button type="submit" class="btn">Submit</button>
         </div>
       </div>
-      <button type="submit" class="btn" >Submit</button>
     </form>
   </div>
   <!-- ---------- -->
+
   <section id="chatroom">
     <section id="feedback"></section>
   </section>
@@ -41,7 +42,7 @@
     <input id="message" class="vertical-align" type="text" />
     <button id="send_message" class="vertical-align" type="button">Send</button>
   </section>
-  
+
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script src="chat.js"></script>
 </body>

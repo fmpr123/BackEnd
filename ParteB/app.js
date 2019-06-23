@@ -79,6 +79,7 @@ io.on('connection', (socket) => {
     //default username
     socket.username = "Anonymous"
     user = "Anonymous"
+
     //Listen on user connection
     io.sockets.emit('user_connect', { username: socket.username });
 
