@@ -122,9 +122,9 @@ io.on('connection', (socket) => {
                         msg: 'Error: No File Selected!'
                     });
                 } else {
-                    res.render('index', {
-                        msg: 'File Uploaded!',
-                    });
+                    // res.render('index', {
+                    //     msg: 'File Uploaded!',
+                    // });
                     io.sockets.emit('send_image', { image_path: req.file.filename, username: user });
                 }
             }
